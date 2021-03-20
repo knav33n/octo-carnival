@@ -18,6 +18,7 @@ public interface IUserRepository extends MongoRepository<User, String> {
 //    find users by custom query
 //    value: where condition
 //    fields: select items: 1 => include, 0 => exclude
+//    _id: 0 to ignore id
 //    sort: 1 => ASC, -1 => DESC
     @Query(value="{country: ?0}", fields="{name: 1, _id: 0}", sort="{name: -1}")
     List<User> findByCountryAsCustom(String country);
@@ -28,5 +29,5 @@ public interface IUserRepository extends MongoRepository<User, String> {
 
 //    select country, [names] from user group by country
     @Aggregation("{$group: { _id: $country, name: { $addToSet: $name } } }")
-    List<UserAggregation> groupByCountryAndName();
+    List<UserAggregation> groupByCountry();
 }
